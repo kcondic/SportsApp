@@ -10,13 +10,17 @@
   </div>
 </template>
 
-<style>
-@import "./index.css";
+<style lang="scss">
+@import '@/styles/normalize.scss';
+@import '@/styles/index.scss';
+@import '@/styles/fonts.scss';
 
-.welcomeMessage {
-  margin: 120px auto;
-  width: 50%;
-  text-align: left;
-  font-size: 24px;
+* {
+  box-sizing: border-box;
+  font-family: 'Open Sans', 'sans-serif';
+}
+
+a {
+  text-decoration: none;
 }
 </style>
