@@ -97,17 +97,36 @@ function getReadableTime(unixTimestamp) {
             align-items: center;
             height: 40px;
             background-color: $table-background-border;
-            padding: 0 20px;
             font-weight: 700;
 
             &-date {
                 width: 10%;
                 padding-right: 40px;
                 text-align: end;
+
+                @media screen and (max-width: 1200px) {
+                    width: 15%;
+                }
+
+                @media screen and (max-width: 768px) {
+                    padding-right: 0;
+                }
+
+                @media screen and (max-width: 680px) {
+                    display: none;
+                }
             }
 
             &-stadium {
                 width: 20%;
+
+                @media screen and (max-width: 1200px) {
+                    width: 15%;
+                }
+
+                @media screen and (max-width: 968px) {
+                    display: none;
+                }
             }
 
             &-teams {
@@ -118,11 +137,31 @@ function getReadableTime(unixTimestamp) {
 
                 div {
                     width: calc(50% - 60px);
+
+                    @media screen and (max-width: 768px) {
+                        width: calc(50% - 30px);
+                    }
+
+                    @media screen and (max-width: 680px) {
+                        width: 50%;
+                    }
                 }
 
                 div:first-of-type {
                     margin-right: 120px;
                     text-align: end;
+
+                    @media screen and (max-width: 768px) {
+                        margin-right: 60px;
+                    }
+                }
+
+                @media screen and (max-width: 968px) {
+                    width: 80%;
+                }
+
+                @media screen and (max-width: 680px) {
+                    width: 100%;
                 }
             }
         }
@@ -134,7 +173,6 @@ function getReadableTime(unixTimestamp) {
             font-size: $table-cell-font-size;
             color: $table-text;
             border-top: 1px solid $table-background-border;
-            padding: 0 20px;
 
             &:nth-of-type(2n+1) {
                 background-color: $table-row-background;
@@ -150,6 +188,18 @@ function getReadableTime(unixTimestamp) {
                 div:first-of-type {
                     margin-bottom: 8px;
                 }
+
+                @media screen and (max-width: 1200px) {
+                    width: 15%;
+                }
+
+                @media screen and (max-width: 768px) {
+                    padding-right: 0;
+                }
+
+                @media screen and (max-width: 680px) {
+                    display: none;
+                }
             }
 
             &-stadium {
@@ -158,6 +208,14 @@ function getReadableTime(unixTimestamp) {
                 white-space: nowrap;
                 text-overflow: ellipsis;
                 padding: 2px 0;
+
+                @media screen and (max-width: 1200px) {
+                    width: 15%;
+                }
+
+                @media screen and (max-width: 968px) {
+                    display: none;
+                }
             }
 
             &-teams-and-result {
@@ -174,6 +232,10 @@ function getReadableTime(unixTimestamp) {
                     &-name {
                         font-size: $table-cell-bolded-font-size;
                         font-weight: 700;
+
+                        @media screen and (max-width: 480px) {
+                            font-size: $table-cell-bolded-font-size-small;
+                        }
                     }
 
                     &.home {
@@ -191,6 +253,20 @@ function getReadableTime(unixTimestamp) {
                     .flag {
                         width: 53px;
                         height: 37px;
+
+                        @media screen and (max-width: 480px) {
+                            width: 40px;
+                            height: 28px;
+                        }
+                    }
+
+                    
+                    @media screen and (max-width: 768px) {
+                        width: calc(50% - 30px);
+                    }
+
+                    @media screen and (max-width: 680px) {
+                        width: 50%;
                     }
                 }
     
@@ -199,8 +275,28 @@ function getReadableTime(unixTimestamp) {
                     font-weight: 700;
                     width: 120px;
                     text-align: center;
+
+                    @media screen and (max-width: 768px) {
+                        width: 60px;
+                    }
+
+                    @media screen and (max-width: 480px) {
+                        font-size: $table-cell-bolded-font-size-small;
+                    }
+                }
+
+                @media screen and (max-width: 968px) {
+                    width: 80%;
+                }
+
+                @media screen and (max-width: 680px) {
+                    width: 100%;
                 }
             }
+        }
+
+        @media screen and (max-width: 480px) {
+            width: 100%;
         }
     }
 }

@@ -50,16 +50,28 @@
             span {
                 color: $header-text;
                 font-size: $menu-font-size;
+
+                @media screen and (max-width: 480px) {
+                    display: none;
+                }
             }
 
             &:first-of-type {
                 margin-right: 40px;
+
+                @media screen and (max-width: 480px) {
+                    margin-right: 15px;
+                }
             }
 
             &:hover {
                 background-color: color.scale($header-background, $lightness: -30%);
             }
         }
+    }
+
+    @media screen and (max-width: 480px) {
+        padding: 0 20px;
     }
 }
 </style>
