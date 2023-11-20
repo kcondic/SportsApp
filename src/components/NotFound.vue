@@ -10,5 +10,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
+    img {
+        max-width: calc(100% - 40px);
+    }
 }
 </style>
