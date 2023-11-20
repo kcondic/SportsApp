@@ -69,11 +69,11 @@ class LeagueService {
      * @returns {Array} List of teams representing the leaderboard.
      */
     getLeaderboard() {
-        let teamsThatPlayed = [...new Set(this.matchList.filter(match => match.matchPlayed === true).map(match => [match.homeTeam, match.awayTeam]).flat())];
+        let teams = [...new Set(this.matchList.map(match => [match.homeTeam, match.awayTeam]).flat())];
         let leaderboard = [];
 
-        for (let team of teamsThatPlayed) {
-            let playedMatches = this.matchList.filter(match => match.homeTeam == team || match.awayTeam == team);
+        for (let team of teams) {
+            let playedMatches = this.matchList.filter(match => match.matchPlayed === true && (match.homeTeam == team || match.awayTeam == team));
             let points = 0;
             let goalsFor = 0;
             let goalsAgainst = 0;
@@ -90,6 +90,7 @@ class LeagueService {
                     goalsAgainst += match.homeTeamScore;
                 }
             }
+
             leaderboard.push({
                 teamName: team,
                 matchesPlayed: playedMatches.length,
@@ -98,7 +99,7 @@ class LeagueService {
                 points: points
             });
         }
-        
+
         return leaderboard;
     }
     
