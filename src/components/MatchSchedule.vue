@@ -46,7 +46,7 @@
 
 <script setup>
 import { inject } from 'vue';
-import { leagueServiceIdentifier } from '@/constants';
+import { leagueServiceIdentifier } from '@/utils/constants';
 
 const leagueService = inject(leagueServiceIdentifier);
 
@@ -88,6 +88,7 @@ function getReadableTime(unixTimestamp) {
         margin-left: auto;
         margin-right: auto;
         width: 90%;
+        padding-bottom: 20px;
         font-size: $table-header-font-size;
         color: $table-text;
 

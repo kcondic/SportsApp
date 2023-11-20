@@ -11,7 +11,7 @@ import { ref, provide, onMounted } from 'vue';
 import NavigationBar from '@/components/NavigationBar.vue';
 import PageFooter from '@/components/PageFooter.vue';
 import LeagueService from '@/services/LeagueService';
-import { leagueServiceIdentifier } from '@/constants';
+import { leagueServiceIdentifier } from '@/utils/constants';
 
 const leagueService = ref(new LeagueService());
 

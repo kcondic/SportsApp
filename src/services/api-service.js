@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { apiUrl } from '@/config';
+import { apiUrl } from '@/utils/config';
 
 async function getApiVersion() {
     return getData('version');

@@ -1,4 +1,5 @@
 import { getMatchList } from '@/services/api-service';
+import { calculatePoints } from '@/utils/functions';
 
 /**
  * A class representing a service that processes the data for match schedule
@@ -67,7 +68,39 @@ class LeagueService {
      * 
      * @returns {Array} List of teams representing the leaderboard.
      */
-    getLeaderboard() {}
+    getLeaderboard() {
+        let teamsThatPlayed = [...new Set(this.matchList.filter(match => match.matchPlayed === true).map(match => [match.homeTeam, match.awayTeam]).flat())];
+        let leaderboard = [];
+
+        for (let team of teamsThatPlayed) {
+            let playedMatches = this.matchList.filter(match => match.homeTeam == team || match.awayTeam == team);
+            let points = 0;
+            let goalsFor = 0;
+            let goalsAgainst = 0;
+
+            for (let match of playedMatches) {
+                if (team === match.homeTeam) {
+                    points += calculatePoints(match.homeTeamScore, match.awayTeamScore, true);
+                    goalsFor += match.homeTeamScore;
+                    goalsAgainst += match.awayTeamScore;
+                }
+                else {
+                    points += calculatePoints(match.homeTeamScore, match.awayTeamScore, false);
+                    goalsFor += match.awayTeamScore;
+                    goalsAgainst += match.homeTeamScore;
+                }
+            }
+            leaderboard.push({
+                teamName: team,
+                matchesPlayed: playedMatches.length,
+                goalsFor: goalsFor,
+                goalsAgainst: goalsAgainst,
+                points: points
+            });
+        }
+        
+        return leaderboard;
+    }
     
     /**
      * Asynchronic function to fetch the data from the server.
