@@ -11,12 +11,12 @@
 </template>
 
 <script setup>
-import { ref, onBeforeMount } from 'vue';
+import { ref, onMounted } from 'vue';
 import { getApiVersion } from '@/services/api-service';
 
 const version = ref(null);
 
-onBeforeMount(async () => {
+onMounted(async () => {
     let apiVersion = await getApiVersion();
     
     if (apiVersion && apiVersion.version)

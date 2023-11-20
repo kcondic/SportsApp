@@ -1,3 +1,5 @@
+import { getMatchList } from '@/services/api-service';
+
 /**
  * A class representing a service that processes the data for match schedule
  * and generates leaderboard.
@@ -8,7 +10,8 @@
  *       ADDITIONALLY, MAKE SURE THAT ALL LIBRARIES USED IN THIS FILE FILE ARE COMPATIBLE WITH PURE JAVASCRIPT
  * 
  */
-class LeagueService {    
+class LeagueService {   
+    matchList = null;
     
     /**
      * Sets the match schedule.
@@ -36,14 +39,18 @@ class LeagueService {
      * 
      * @param {Array} matches List of matches.
      */    
-    setMatches(matches) {}
+    setMatches(matches) {
+        this.matchList = matches;
+    }
 
     /**
      * Returns the full list of matches.
      * 
      * @returns {Array} List of matches.
      */
-    getMatches() {}
+    getMatches() {
+        return this.matchList;
+    }
 
     /**
      * Returns the leaderboard in a form of a list of JSON objecs.
@@ -65,7 +72,14 @@ class LeagueService {
     /**
      * Asynchronic function to fetch the data from the server.
      */
-    async fetchData() {}    
+    async fetchData() {
+        const data = await getMatchList();
+
+        if (data && data.matches && data.matches.length)
+            this.setMatches(data.matches);
+        else
+            this.setMatches([]);
+    }
 }
 
 export default LeagueService;
