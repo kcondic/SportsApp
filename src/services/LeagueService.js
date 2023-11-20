@@ -70,7 +70,7 @@ class LeagueService {
      */
     getLeaderboard() {
         let teams = [...new Set(this.matchList.map(match => [match.homeTeam, match.awayTeam]).flat())];
-        let leaderboard = [];
+        let generalLeaderboard = [];
 
         for (let team of teams) {
             let playedMatches = this.matchList.filter(match => match.matchPlayed === true && (match.homeTeam == team || match.awayTeam == team));
@@ -91,7 +91,7 @@ class LeagueService {
                 }
             }
 
-            leaderboard.push({
+            generalLeaderboard.push({
                 teamName: team,
                 matchesPlayed: playedMatches.length,
                 goalsFor: goalsFor,
@@ -100,7 +100,87 @@ class LeagueService {
             });
         }
 
-        return leaderboard;
+        let teamsGroupedByPoints = Object.groupBy(generalLeaderboard, team => team.points);
+
+        let descendingPointsValues = Object.keys(teamsGroupedByPoints).sort().reverse();
+
+        let sortedLeaderBoard = [];
+
+        for (let numberOfPoints of descendingPointsValues) {
+            let groupOfTeams = teamsGroupedByPoints[numberOfPoints];
+
+            if (groupOfTeams.length === 1) {
+                sortedLeaderBoard.push(groupOfTeams[0]);
+                continue;
+            }
+
+            let headToHeadLeaderboard = [];
+            let concernedTeams = groupOfTeams.map(team => team.teamName);
+
+            for (let team of concernedTeams) {
+                let otherTeams = concernedTeams.filter(otherTeam => team !== otherTeam);
+                let playedMatches = this.matchList.filter(match => match.matchPlayed === true && (match.homeTeam == team && otherTeams.indexOf(match.awayTeam) > -1 || match.awayTeam == team && otherTeams.indexOf(match.homeTeam) > -1));
+
+                let points = 0;
+                let goalsFor = 0;
+                let goalsAgainst = 0;
+    
+                for (let match of playedMatches) {
+                    if (team === match.homeTeam) {
+                        points += calculatePoints(match.homeTeamScore, match.awayTeamScore, true);
+                        goalsFor += match.homeTeamScore;
+                        goalsAgainst += match.awayTeamScore;
+                    }
+                    else {
+                        points += calculatePoints(match.homeTeamScore, match.awayTeamScore, false);
+                        goalsFor += match.awayTeamScore;
+                        goalsAgainst += match.homeTeamScore;
+                    }
+                }
+    
+                headToHeadLeaderboard.push({
+                    teamName: team,
+                    points: points
+                });
+            }
+
+            headToHeadLeaderboard.sort(function (firstTeam, secondTeam) {
+                if (firstTeam.points > secondTeam.points)
+                    return -1;
+                else if (firstTeam.points < secondTeam.points)
+                    return 1;
+                
+                let indexOfFirstTeamInGroup = groupOfTeams.findIndex(groupedTeam => groupedTeam.teamName === firstTeam.teamName);
+                let indexOfSecondTeamInGroup = groupOfTeams.findIndex(groupedTeam => groupedTeam.teamName === secondTeam.teamName);
+
+                let firstTeamOnLeaderboard = groupOfTeams[indexOfFirstTeamInGroup];
+                let secondTeamOnLeaderboard = groupOfTeams[indexOfSecondTeamInGroup];
+
+                let firstTeamGoalDifference = firstTeamOnLeaderboard.goalsFor - firstTeamOnLeaderboard.goalsAgainst;
+                let secondTeamGoalDifference = secondTeamOnLeaderboard.goalsFor - secondTeamOnLeaderboard.goalsAgainst;
+
+                if (firstTeamGoalDifference > secondTeamGoalDifference)
+                    return -1;
+                else if (secondTeamGoalDifference > firstTeamGoalDifference)
+                    return 1;
+
+                if (firstTeamOnLeaderboard.goalsFor > secondTeamOnLeaderboard.goalsFor)
+                    return -1;
+                else if (secondTeamOnLeaderboard.goalsFor > firstTeamOnLeaderboard.goalsFor)
+                    return 1;
+
+                return firstTeam.teamName < secondTeam.teamName ? -1 : 1;
+            });
+
+            for (let headTeam of headToHeadLeaderboard) {
+                let indexOfTeamInGroup = groupOfTeams.findIndex(groupedTeam => groupedTeam.teamName === headTeam.teamName);
+
+                if (indexOfTeamInGroup > -1)
+                    sortedLeaderBoard.push(groupOfTeams[indexOfTeamInGroup]);
+            }
+        }
+
+        return sortedLeaderBoard;
     }
     
     /**
