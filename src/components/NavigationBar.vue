@@ -45,6 +45,10 @@
             img {
                 height: 25px;
                 margin-right: 8px;
+
+                @media screen and (max-width: 480px) {
+                    margin-right: 0;
+                }
             }
 
             span {
