@@ -2,7 +2,10 @@ module.exports = {
     css: {
         loaderOptions: {
             scss: {
-                additionalData: `@import "~@/styles/variables.scss";`
+                additionalData: `
+                    @use "sass:color";
+                    @import "~@/styles/variables.scss";
+                `
             }
         }
     }
