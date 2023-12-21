@@ -1,4 +1,4 @@
-import { winPoints, drawPoints, lossPoints } from '@/utils/constants';
+import { winPoints, drawPoints, lossPoints } from './constants';
 
 function calculatePoints(homeScore, awayScore, didPlayForHome) {
     if (homeScore === awayScore)

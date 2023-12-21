@@ -1,5 +1,6 @@
-import { getMatchList } from '@/services/api-service';
-import { calculatePoints } from '@/utils/functions';
+import { groupBy } from 'core-js/actual/array/group-by';
+import { getMatchList } from './api-service';
+import { calculatePoints } from '../utils/functions';
 
 /**
  * A class representing a service that processes the data for match schedule
@@ -100,7 +101,7 @@ class LeagueService {
             });
         }
 
-        let teamsGroupedByPoints = Object.groupBy(generalLeaderboard, team => team.points);
+        let teamsGroupedByPoints = generalLeaderboard.groupBy(team => team.points);
 
         let descendingPointsValues = Object.keys(teamsGroupedByPoints).sort().reverse();
 
